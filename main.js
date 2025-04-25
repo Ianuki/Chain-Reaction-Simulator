@@ -47,7 +47,7 @@ class atom {
 
             if (distance_from_atom <= ATOM_SIZE + NEUTRON_SIZE) {
                 this.split(neutron_list);
-                neutron_list[neutron_index] = undefined;
+                neutron_list.splice(neutron_index, 1);
 
                 break;
             }
@@ -59,42 +59,38 @@ class atom {
             let _neutron = new neutron(
                 this.x,
                 this.y,
-                360 / this.neutrons * neutron_index,
-                Math.random() * 2 + 0.1
+                Math.random() * 360,
+                1.5
             );
 
             neutron_list[neutron_index + neutron_list.length] = _neutron;
 
             this.splitted = true;
-            this.regen_time = 60;
+            this.regen_time = 600;
         }
     }
 } 
 
 let neutrons = [
     new neutron(
-        0,
+        200,
         300,
         0,
-        0.5
+        1
     )
 ];
 
-let atoms = [
-    new atom(
-        400,
-        300,
-        1,
-    ),
-];
+let atoms = [];
 
-for (let i = 0; i < 9; i++) {
-    for (let j = 0; j < 9; j++) {
-        atoms[atoms.length + i] = new atom(
-            i * 80 + 80,
-            j * 60 + 60,
-            3 
-        )
+for (let i = 0; i < 40; i++) {
+    for (let j = 0; j < 30; j++) {
+        if (Math.floor(Math.random() * 2) == 0) {
+            atoms[atoms.length + i] = new atom(
+                i * 20 + ATOM_SIZE,
+                j * 20 + ATOM_SIZE,
+                2
+            )
+        }
     }
 }
 
@@ -106,31 +102,38 @@ const CONTEXT = BOARD.getContext("2d");
 const update_simulation = async () => {
     CONTEXT.clearRect(0, 0, BOARD.width, BOARD.height);
 
+    for (let atom_index = 0; atom_index < atoms.length; atom_index++) {
+        let atom = atoms[atom_index];
+        if (atom === undefined) { continue; }
+
+        CONTEXT.beginPath();
+        CONTEXT.arc(atom.x, atom.y, ATOM_SIZE, 0, 2 * Math.PI, false);
+        CONTEXT.fillStyle = "green";
+        if (atom.splitted == true) {CONTEXT.fillStyle = "grey"; }
+        CONTEXT.fill();
+
+        atom.update(neutrons);
+    }
+
     for (let neutron_index = 0; neutron_index < neutrons.length; neutron_index++) {
         let neutron = neutrons[neutron_index];
         if (neutron === undefined) { continue; }
 
         neutron.update(neutrons);
-        console.log(neutron.x);
-        console.log(neutron.y);
-        console.log("+----------+");
+        if (
+            neutron.x > BOARD.width ||
+            neutron.y > BOARD.height ||
+            neutron.x < 0 ||
+            neutron.y < 0
+        ) {
+            neutrons.splice(neutron_index, 1);
+            console.log(neutrons.length)
+        }
 
         CONTEXT.beginPath();
         CONTEXT.arc(neutron.x, neutron.y, NEUTRON_SIZE, 0, 2 * Math.PI, false);
-        CONTEXT.fillStyle = "green";
-        CONTEXT.fill();
-    }
-
-    for (let atom_index = 0; atom_index < atoms.length; atom_index++) {
-        let atom = atoms[atom_index];
-        if (atom === undefined) { continue; }
-        if (atom.splitted == true) { continue; }
-
-        CONTEXT.beginPath();
-        CONTEXT.arc(atom.x, atom.y, ATOM_SIZE, 0, 2 * Math.PI, false);
         CONTEXT.fillStyle = "blue";
         CONTEXT.fill();
-        atom.update(neutrons);
     }
 
     requestAnimationFrame(update_simulation);
