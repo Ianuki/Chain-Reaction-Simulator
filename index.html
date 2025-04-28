@@ -3,14 +3,26 @@
 </head>
 
 <body>
-    <h1>Chain Reaction Simulation</h1>
+    <h1>Nuclear Reactor Simulator</h1>
 
-    <div id="container">
-        <canvas id="board" width="800" height="600"></canvas> <br><br>
-    </div>
-
-    <div id="menu">
-        <button id="start-button">Start</button>
+    <div class="gamecontainer">
+        <div id="container">
+            <canvas id="board" width="1240" height="600"></canvas>
+        </div><br>
+    
+        <div class="menu" id="menu">
+            <button id="start-button">Start</button>
+        </div>
+    
+        <div class="control-panel" id="control-panel">
+            <p>
+                <span><b>Reactor temperature: </b></span><b id="temperature">Reactor temperature:</b>
+            </p>
+    
+            <button class="debugging-tools" id="replace-uranium"><b>Replace all uranium</b></button>
+            <button id="split"><b>Split random atom</b></button>
+            <button id="control-rods"><b>Lower control rods</b></button>
+        </div>
     </div>
 
     <script src="main.js"></script>
