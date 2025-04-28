@@ -1,25 +1,26 @@
 * {
     text-align: center;
     font-family: sans-serif;
-    color: white;
-    background-color: #222831;
+    color: #31363F;
+    background-color: white;
+}
+
+#game-container {
+    font-size: 30px;
 }
 
 h1 {
-    padding: 30px;
+    padding: 10px;
+    color: #222831;
 }
 
 canvas {
-    background-color: #f8f4e7;
-    border-radius: 5px;  
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgb(0, 0, 0);
+    border-radius: 10px;
+    margin: auto;
+    display: none;
 }
 
-.menu {
-    border: 2px solid red;
-}
-
-button {
+#menu button {
     font-weight: bold;
     padding: 10px;
     width: 100px;
@@ -30,16 +31,21 @@ button {
 }
 
 span {
+    font-size: 20px;
     border-bottom: 2px solid #76ABAE;
+    text-align: center;
 }
 
-input {
+#control-panel button {
     font-weight: bold;
-    padding: 10px;
-    width: 50px;
+    padding: 5px;
+    width: fit-content;
     border-radius: 5px;
     border: none;
-    color: white;
-    border: 2px solid #76ABAE;
-    background-color: #31363F;
+    color: #31363F;
+    border: 4px solid #76ABAE;
+}
+
+#control-panel b {
+    text-align: left;
 }
